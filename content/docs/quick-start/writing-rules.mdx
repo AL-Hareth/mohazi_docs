@@ -1,0 +1,66 @@
+---
+title: Writing Rules
+description: Learn the three different styles for writing validation rules in MoHaZi.
+---
+
+# Writing Rules
+
+MoHaZi's custom parser provides three different ways to attach error messages to your validation rules, giving you the flexibility to keep your schemas clean and readable.
+
+## 1. The Nested Value-Error Fields
+
+You can provide the rule value and error message as nested properties under the rule name.
+
+```yaml
+password:
+  type: string
+  rules:
+    minLength:
+      value: 8
+      error: "Password must be at least 8 characters long."
+```
+
+This is highly readable when you have long error messages or complex values.
+
+## 2. The JSON Value-Error Object (Inline JSON)
+
+For a more compact approach, you can provide a single-line JSON object.
+
+```yaml
+password:
+  type: string
+  rules:
+    minLength: {"value": 8, "error": "Password must be at least 8 characters long."}
+```
+
+This style is perfect when you want to save vertical space.
+
+## 3. Adjacent Rule-Error Pairs (Sibling Errors)
+
+MoHaZi has a unique parsing feature that allows you to provide the value directly to the rule, and attach the error on the very next line using the `error` keyword.
+
+```yaml
+password:
+  type: string
+  rules:
+    minLength: 8
+    error: "Password must be at least 8 characters long."
+    maxLength: 15
+    error: "Password must be at most 15 long."
+```
+
+The parser peeks at the next line, and if it sees `error:` at the same indentation level, it automatically attaches it to the rule above it! This is often the cleanest and most natural way to write rules.
+
+## Using the `defaultError`
+
+If you don't specify an error message for a rule, MoHaZi will look for a `defaultError` property on the field.
+
+```yaml
+password:
+  type: string
+  defaultError: "Invalid password."
+  rules:
+    minLength: 8
+```
+
+In this case, if the `minLength` validation fails, it falls back to the message `"Invalid password."`.

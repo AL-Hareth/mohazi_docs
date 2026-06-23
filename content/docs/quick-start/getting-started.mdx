@@ -1,0 +1,131 @@
+---
+title: Getting Started
+description: Learn how to set up and use MoHaZi in your projects.
+---
+
+# Getting Started
+
+MoHaZi is a developer tool that allows you to define schemas, validation rules, and data transformations in `.mhz` files. It then compiles these schemas into native validation logic for multiple languages (like Javascript and C#), allowing you to write your validation logic once and use it 1-to-1 across your entire stack.
+
+## Installation
+
+You can install the MoHaZi compiler using npm (assuming it is distributed via npm):
+
+```bash
+npm install -g mohazi
+```
+
+Verify the installation by running:
+
+```bash
+mhz --version
+```
+
+## Initial Setup & Configuration
+
+At the root of your project, create a configuration file named `mhz.config.json`. This file tells the compiler where to find your `.mhz` schemas and where to output the generated code.
+
+```json
+{
+  "input": "./mhz",
+  "languages": {
+    "javascript": {
+      "enabled": true,
+      "output": "./frontend/lib/mhz"
+    },
+    "C#": {
+      "enabled": true,
+      "output": "./backend/lib/mhz"
+    }
+  }
+}
+```
+
+## Writing Your First Schema
+
+Create a directory named `mhz` (matching your config input) and add a file named `login.mhz`.
+
+MoHaZi schemas define `Forms` containing `Fields`. Here is a simple login schema:
+
+```yaml
+login:
+  username:
+    type: string
+    required: true
+    defaultError: 'Invalid username.'
+    rules:
+      minLength: { value: 3, error: 'Username must be at least 3 characters long.' }
+      maxLength: 20
+  
+  age:
+    type: string
+    rules:
+      pattern: "^[0-9]+$"
+    transform:
+      cast: number
+    rules:
+      min: { value: 18, error: "Must be at least 18." }
+```
+
+### The Magic of Sequential Evaluation
+
+Notice something unique in the `age` field above? MoHaZi uses a custom parser that **does not restrict you from reusing** the `rules` or `transform` keys! It evaluates them sequentially top-to-bottom:
+
+1. It validates that the string contains only digits.
+2. The `transform` casts the string into a `number`.
+3. The next `rules` block creates a brand new validation context for the number, allowing you to use number-specific rules like `min` and `max` on the newly casted data!
+
+This allows you to create powerful, chained validation pipelines naturally without nested or complicated JSON blocks.
+
+### Sibling Errors
+
+You can also provide errors cleanly on the next line without wrapping them in an object:
+
+```yaml
+password:
+  type: string
+  rules:
+    minLength: 8
+    error: 'Password must be at least 8 characters long.'
+```
+The parser automatically attaches `error` to the preceding rule.
+
+## Compiling the Schema
+
+Once your schema is ready, run the compiler from your project root:
+
+```bash
+mhz generate
+```
+
+MoHaZi will loop through the files in your `./mhz` folder, compile them, and output them to the specified folders in your configuration (e.g., generating `./frontend/lib/mhz/login.ts`).
+
+## Using the Generated Code
+
+In your application code, you can now import the generated validation function. It will return a standard result format.
+
+```javascript
+import { validateLogin } from './frontend/lib/mhz/login';
+
+const data = {
+  username: 'am',
+  password: 'password123'
+};
+
+const result = validateLogin(data);
+
+if (result.success) {
+  // `result.data` contains the transformed and validated object
+  console.log("Validated Data:", result.data); 
+} else {
+  // `result.errors` contains an array of error messages
+  console.log("Errors:", result.errors);
+  /* Example output:
+   [
+     { path: "login.username", message: "Username must be at least 3 characters long." }
+   ]
+  */
+}
+```
+
+You are now ready to start building clean, cross-stack validations with MoHaZi!

@@ -1,0 +1,37 @@
+---
+title: Configuration File
+description: Configure the MoHaZi compiler using mhz.config.json.
+---
+
+# Configuration File
+
+The `mhz.config.json` file is required at the root of your project where you run the MoHaZi compiler. It tells the compiler where to find your schema files and which target languages to generate code for.
+
+## Basic Structure
+
+Here is a typical `mhz.config.json`:
+
+```json
+{
+  "input": "./mhz",
+  "languages": {
+    "javascript": {
+      "enabled": true,
+      "output": "./frontend/lib/mhz"
+    },
+    "C#": {
+      "enabled": true,
+      "output": "./backend/lib/mhz"
+    }
+  }
+}
+```
+
+### Properties
+
+- **`input`**: The directory path where your `.mhz` schema files are located. The compiler will loop through this folder to process the schemas.
+- **`languages`**: An object containing configuration for each target language.
+  - **`enabled`**: Set to `true` to generate code for this language.
+  - **`output`**: The directory path where the compiled validation files will be saved.
+
+Make sure the output paths exist or can be created in your project before running the compiler!

@@ -1,0 +1,78 @@
+---
+title: Real Examples
+description: Real-world examples of MoHaZi schemas for login and registration.
+---
+
+# Real Examples
+
+Here is a real-world example of how you can use MoHaZi to define complete forms with robust validation logic. 
+
+You can define multiple forms within a single `.mhz` schema file. For example, you might create an `auth.mhz` file that handles both your application's `login` and `register` forms:
+
+```yaml
+# auth.mhz
+
+login:
+  username:
+    type: string
+    required: true
+    defaultError: 'Invalid username.'
+    rules:
+      minLength: { value: 3, error: 'Username must be at least 3 characters long.' }
+      maxLength: 20
+  
+  password:
+    type: string
+    required: true
+    rules:
+      minLength: 8
+      error: 'Password must be at least 8 characters long.'
+      pattern:
+        value: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+        error: 'Password must contain at least one letter and one number.'
+
+register:
+  email:
+    type: string
+    required: true
+    defaultError: 'Invalid email address.'
+    rules:
+      pattern:
+        value: "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+        error: 'Email must be a valid email format.'
+        
+  username:
+    type: string
+    required: true
+    defaultError: 'Invalid username.'
+    rules:
+      minLength: { value: 3, error: 'Username must be at least 3 characters long.' }
+      maxLength: { value: 20, error: 'Username cannot exceed 20 characters.' }
+      
+  password:
+    type: string
+    required: true
+    defaultError: 'Invalid password.'
+    rules:
+      minLength: 8
+      error: 'Password must be at least 8 characters long.'
+      pattern:
+        value: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+        error: 'Password must contain at least one letter and one number.'
+        
+  age:
+    type: string
+    defaultError: 'Invalid age.'
+    rules:
+      pattern:
+        value: "^[0-9]+$"
+        error: 'Age must be a valid number.'
+    transform:
+      cast: number
+    rules:
+      min: { value: 18, error: 'You must be at least 18 years old to register.' }
+```
+
+This `auth.mhz` file demonstrates several key features:
+- **Multiple Forms**: Both `login` and `register` are defined in the same file.
+- **Sequential Evaluation**: The `age` field in the register form casts a string to a number and applies subsequent rules like `min: 18`.
