@@ -18,12 +18,20 @@ npm install -g mohazi
 Verify the installation by running:
 
 ```bash
-mhz --version
+mohazi --version
 ```
 
 ## Initial Setup & Configuration
 
-At the root of your project, create a configuration file named `mhz.config.json`. This file tells the compiler where to find your `.mhz` schemas and where to output the generated code.
+At the root of your project, you need a configuration file named `mhz.config.json`. This file tells the compiler where to find your `.mhz` schemas and where to output the generated code.
+
+You can automatically generate a blank configuration file by running the following command:
+
+```bash
+mohazi config
+```
+
+This will generate a default `mhz.config.json` file that looks similar to this:
 
 ```json
 {
@@ -31,15 +39,16 @@ At the root of your project, create a configuration file named `mhz.config.json`
   "languages": {
     "javascript": {
       "enabled": true,
-      "output": "./frontend/lib/mhz"
+      "output": ""
     },
     "C#": {
       "enabled": true,
-      "output": "./backend/lib/mhz"
+      "output": ""
     }
   }
 }
 ```
+You will have to add the target output directories for each target language.
 
 ## Writing Your First Schema
 
@@ -95,7 +104,7 @@ The parser automatically attaches `error` to the preceding rule.
 Once your schema is ready, run the compiler from your project root:
 
 ```bash
-mhz generate
+mohazi generate
 ```
 
 MoHaZi will loop through the files in your `./mhz` folder, compile them, and output them to the specified folders in your configuration (e.g., generating `./frontend/lib/mhz/login.ts`).
