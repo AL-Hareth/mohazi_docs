@@ -63,13 +63,13 @@ export default function HomePage() {
                         </div>
                         <div className="p-6 text-sm font-mono overflow-x-auto h-full">
                             <pre className="text-slate-300 leading-relaxed">
-<span className="text-pink-400">login:</span>{"\n"}
-<span className="text-blue-300">{"  username:"}</span>{"\n"}
-<span className="text-indigo-300">{"    type:"}</span> string{"\n"}
-<span className="text-indigo-300">{"    required:"}</span> true{"\n"}
-<span className="text-pink-400">{"    rules:"}</span>{"\n"}
-<span className="text-blue-300">{"      minLength:"}</span> 3{"\n"}
-<span className="text-indigo-300">{"      error:"}</span> <span className="text-green-300">'Username too short'</span>
+                                <span className="text-pink-400">login:</span>{"\n"}
+                                <span className="text-blue-300">{"  username:"}</span>{"\n"}
+                                <span className="text-indigo-300">{"    type:"}</span> string{"\n"}
+                                <span className="text-indigo-300">{"    required:"}</span> true{"\n"}
+                                <span className="text-pink-400">{"    rules:"}</span>{"\n"}
+                                <span className="text-blue-300">{"      minLength:"}</span> 3{"\n"}
+                                <span className="text-indigo-300">{"      error:"}</span> <span className="text-green-300">&quot;Username too short&quot;</span>
                             </pre>
                         </div>
                     </div>
@@ -92,17 +92,17 @@ export default function HomePage() {
                         </div>
                         <div className="p-6 text-sm font-mono overflow-x-auto h-full">
                             <pre className="text-slate-300 leading-relaxed">
-<span className="text-pink-400">export const</span> <span className="text-blue-300">validateLogin</span> = <span className="text-indigo-300">async</span> (data) <span className="text-pink-400">=&gt;</span> {"{"}{"\n"}
-<span className="text-pink-400">{"  let"}</span> result = {"{"} success: <span className="text-orange-300">false</span>, errors: [], data {"}"};{"\n"}
-{"\n"}
-<span className="text-pink-400">{"  if"}</span> (!data.username || <span className="text-indigo-300">typeof</span> data.username !== <span className="text-green-300">'string'</span>) {"{"}{"\n"}
-{"    "}result.errors.push({"{"} path: <span className="text-green-300">"username"</span>, message: <span className="text-green-300">"Invalid value"</span> {"}"});{"\n"}
-{"  }"} <span className="text-pink-400">else if</span> (data.username.length &lt; <span className="text-orange-300">3</span>) {"{"}{"\n"}
-{"    "}result.errors.push({"{"} path: <span className="text-green-300">"username"</span>, message: <span className="text-green-300">"Username too short"</span> {"}"});{"\n"}
-{"  }"}{"\n"}
-{"\n"}
-<span className="text-pink-400">{"  return"}</span> result.errors.length ? result : {"{"} success: <span className="text-orange-300">true</span>, data {"}"};{"\n"}
-{"}"};
+                                <span className="text-pink-400">export const</span> <span className="text-blue-300">validateLogin</span> = <span className="text-indigo-300">async</span> (data) <span className="text-pink-400">=&gt;</span> {"{"}{"\n"}
+                                <span className="text-pink-400">{"  let"}</span> result = {"{"} success: <span className="text-orange-300">false</span>, errors: [], data {"}"};{"\n"}
+                                {"\n"}
+                                <span className="text-pink-400">{"  if"}</span> (!data.username || <span className="text-indigo-300">typeof</span> data.username !== <span className="text-green-300">&quot;string&quot;</span>) {"{"}{"\n"}
+                                {"    "}result.errors.push({"{"} path: <span className="text-green-300">&quot;username&quot;</span>, message: <span className="text-green-300">&quot;Invalid value&quot;</span> {"}"});{"\n"}
+                                {"  }"} <span className="text-pink-400">else if</span> (data.username.length &lt; <span className="text-orange-300">3</span>) {"{"}{"\n"}
+                                {"    "}result.errors.push({"{"} path: <span className="text-green-300">&quot;username&quot;</span>, message: <span className="text-green-300">&quot;Username too short&quot;</span> {"}"});{"\n"}
+                                {"  }"}{"\n"}
+                                {"\n"}
+                                <span className="text-pink-400">{"  return"}</span> result.errors.length ? result : {"{"} success: <span className="text-orange-300">true</span>, data {"}"};{"\n"}
+                                {"}"};
                             </pre>
                         </div>
                     </div>
